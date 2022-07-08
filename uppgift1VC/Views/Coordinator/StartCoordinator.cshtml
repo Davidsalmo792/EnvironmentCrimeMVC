@@ -1,0 +1,73 @@
+﻿@{
+    Layout = "_LoginCoordinatorLayout";
+}
+
+@model IErrandRepository
+
+<div id="content">
+    <h2>Ärenden</h2>
+    <p class="info">Du är inloggad som samordnare</p>
+
+    <table id="managerForm">
+        <tr>
+            <td class="label">Välj status:</td>
+            <td class="label">Välj avdelning:</td>
+            <td>&nbsp;</td>
+            <td class="label">Ärendenummer:</td>
+            <td>&nbsp;</td>
+        </tr>
+        <tr>
+            <td>
+                <select name="status">
+                    <option selected="selected">Välj alla</option>
+                    @foreach (ErrandStatus errand in Model.ErrandStatuses)
+                    {
+                        <option>@errand.StatusName</option>
+                    }
+                </select>
+            </td>
+            <td>
+                <select name="department">
+                    <option selected="selected">Välj alla</option>
+
+                    @foreach (Department errand in Model.Departments)
+                    {
+                        <option>@errand.DepartmentName</option>
+                    }
+                </select>
+            </td>
+            <td><input class="button" type="submit" value="Hämta lista" /></td>
+            <td><input name="casenumber" /></td>
+            <td><input class="button" type="submit" value="Sök" /></td>
+        </tr>
+    </table>
+
+    <!--Nedan ser man en lista på ärenden-->
+    <table>
+
+        <tr>
+            <th>Ärende anmält</th>
+            <th>Ärendenummer</th>
+            <th>Miljöbrott</th>
+            <th>Status</th>
+            <th>Avdelning</th>
+            <th>Handläggare</th>
+        </tr>
+
+        @foreach (Errand errand in Model.Errands)
+        {
+            <tr>
+                <td>@errand.DateOfObservation.ToShortDateString()</td>
+                <td><a asp-controller="Coordinator" asp-action="CrimeCoordinator" asp-route-id="@errand.ErrandID">@errand.RefNumber</a></td>
+                <td>@errand.TypeOfCrime</td>
+                <td>@errand.StatusId</td>
+                <td>@errand.DepartmentId</td>
+                <td>@errand.EmployeeId</td>
+            </tr>
+        }
+
+    </table>
+
+
+
+</div><!-- End Content -->
